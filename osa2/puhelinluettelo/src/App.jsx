@@ -2,68 +2,10 @@ import { useState, useEffect } from 'react'
 import noteServices from './services/people'
 import './index.css'
 
-const ShowNames = ({namesToShow, handleRemove}) => {
-  return (
-    <ul>
-        {namesToShow.map(person => 
-          <li key={person.name}>
-            {person.name} {person.number}
-            <button onClick={() => handleRemove(person.id)}>delete</button>
-          </li>)}
-    </ul>
-  )
-}
-
-
-const RenderNameInput = ({addName, handleNameChange, handleNumberChange, newName, newNumber}) => {
-  return (
-    <form onSubmit={addName}>
-        <div>
-          name: <input 
-          value={newName}
-          onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input 
-          value={newNumber}
-          onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-  )
-}
-
-const RenderFilter = ({filters, handleFilterChange}) => {
-  return (
-    <form>
-        <div>
-          Filter name<input
-          value={filters}
-          onChange={handleFilterChange}
-          />
-        </div>
-      </form>
-  )
-}
-
-const Notification = ({ message }) => {
-  if (message === null) {
-    return null
-  }
-  const type = message.includes('Error') 
-  ? 'error' 
-  : 'message'
-
-  return (
-    <div className={type}>
-      {message}
-    </div>
-  )
-}
+import Notification from './components/Notification'
+import RenderNameInput from './components/RenderNameInput'
+import ShowNames from './components/ShowNames'
+import RenderFilter from './components/RenderFilter'
 
 
 
@@ -75,9 +17,10 @@ const App = () => {
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
+    console.log("works")
     noteServices
       .getAll()
-      .then(returnPerson => {
+      .then((returnPerson) => {
         setPersons(returnPerson)
       })
   },[])
@@ -161,6 +104,7 @@ const App = () => {
   const namesToShow = filters
   ? persons.filter(person => person.name.toUpperCase().includes(filters.toUpperCase()))
   : persons;
+
 
   return (
     <div>
