@@ -17,7 +17,6 @@ const App = () => {
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
-    console.log("works")
     noteServices
       .getAll()
       .then((returnPerson) => {
@@ -50,6 +49,7 @@ const App = () => {
           })
           .catch(error => {
             setMessage(`Error: Info of ${currentPerson.name} has already been removed`)
+            console.log(error.response.data)
               setTimeout(() => {
                   setMessage(null)
               }, 5000)
@@ -70,7 +70,15 @@ const App = () => {
           setTimeout(() => {
               setMessage(null)
           }, 5000)
+        })
+        .catch(error => {
+        setMessage(`Error: ${error.response.data.error}`)
+            console.log(error.response.data)
+              setTimeout(() => {
+                  setMessage(null)
+              }, 5000)
       })
+
     }
   }
 
