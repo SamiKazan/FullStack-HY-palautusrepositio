@@ -3,6 +3,8 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import AddForm from './components/NewBlog'
+import Notification from './components/Notification'
+import './index.css'
 
 
 const App = () => {
@@ -10,7 +12,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
 
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
@@ -50,9 +52,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setMessage('Wrong username or password')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
   }
@@ -106,10 +108,14 @@ const App = () => {
       title: newTitle,
       author: newAuthor,
       url: newUrl,
-      user: user.id
+      user: user.username
     }
 
     await blogService.create(blogObject)
+    setMessage(`Added New Blog ${newTitle} by ${newAuthor}`)
+    setTimeout(() => {
+        setMessage(null)
+    }, 5000)
     setNewTitle('')
     setNewAuthor('')
     setNewUrl('')
@@ -118,6 +124,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message}/>
       <h1>Blog site</h1>
       {!user && loginForm()}
 
