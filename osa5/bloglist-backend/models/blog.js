@@ -8,7 +8,9 @@ const mongoose = require('mongoose')
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    username: String,
+    name: String
   })
 
 blogSchema.set('toJSON', {

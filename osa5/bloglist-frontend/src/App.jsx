@@ -5,6 +5,7 @@ import loginService from './services/login'
 import AddForm from './components/NewBlog'
 import Notification from './components/Notification'
 import './index.css'
+import Toggleable from './components/ToggleNewBlog'
 
 
 const App = () => {
@@ -91,11 +92,16 @@ const App = () => {
   }
 
   const blogForm = () => {
+    const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+
     return (
       <div>
         <h2>blogs</h2>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+        {sortedBlogs.map(blog =>
+          <Blog key={blog.id} blog={blog} 
+          likeBlog={() => likeBlog(blog)} 
+          deleteBlog={() => deleteBlog(blog)}
+          currentUser={user}/>
         )}
       </div>
     )
@@ -121,6 +127,48 @@ const App = () => {
     setNewUrl('')
   }
 
+  const likeBlog = async (blog) => {
+
+    const updatedBlog = {
+      ...blog,
+      likes: blog.likes + 1
+    }
+
+    try {
+      const returnedBlog = await blogService.update(blog.id, updatedBlog)
+      setBlogs(blogs.map(b => b.id !== blog.id ? b : updatedBlog))
+      setMessage(`Liked ${blog.title} by ${blog.author}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    } catch (error) {
+      setMessage(`Error liking ${blog.title}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    }
+  }
+
+  const deleteBlog = async (blog) => {
+    const confirmation = window.confirm(`Delete ${blog.title} by ${blog.author}?`)
+    if (!confirmation) {
+      return
+    }
+    
+    try {
+      await blogService.remove(blog.id)
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+      setMessage(`Deleted ${blog.title} by ${blog.author}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    } catch (error) {
+      setMessage(`Error deleting ${blog.title}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    }
+  }
 
   return (
     <div>
@@ -132,6 +180,8 @@ const App = () => {
         <p>{user.name} logged in</p>
         <button onClick={handeLogout}>logout</button>
 
+
+        <Toggleable buttonLabel="new blog">
         <h2>Create new blog</h2>
         <AddForm 
         newTitle={newTitle}
@@ -142,7 +192,7 @@ const App = () => {
         handleUrlChange={({ target }) => setNewUrl(target.value)}
         addBlog={addBlog}
         />
-
+        </Toggleable>
 
         {blogForm()}
         </div>
