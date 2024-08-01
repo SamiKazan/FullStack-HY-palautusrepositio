@@ -18,8 +18,8 @@ const create = async (newObject) => {
   }
 
   try {
-  const response = await axios.post(baseUrl, newObject, config)
-  return response.data 
+    const response = await axios.post(baseUrl, newObject, config)
+    return response.data
   } catch (error) {
     console.log(error)
     throw error
@@ -54,4 +54,4 @@ const remove = async (id) => {
   }
 }
 
-export default { getAll, create, setToken, update, remove}
+export default { getAll, create, setToken, update, remove }

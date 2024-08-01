@@ -22,7 +22,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -31,16 +31,15 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogService.setToken(user.token)
-      console.log(user)
     }
   }, [])
 
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
-      const user = await loginService.login({ 
+      const user = await loginService.login({
         username, password,
       })
 
@@ -67,27 +66,27 @@ const App = () => {
 
   const loginForm = () => {
     return (
-    <form onSubmit={handleLogin}>
-      <div>
-        Username
-        <input
-        type = "text"
-        value={username}
-        name="Username"
-        onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        Password
-        <input
-        type="password"
-        value={password}
-        name="Password"
-        onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+      <form onSubmit={handleLogin}>
+        <div>
+          Username
+          <input
+            type = "text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          Password
+          <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
     )
   }
 
@@ -98,10 +97,10 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         {sortedBlogs.map(blog =>
-          <Blog key={blog.id} blog={blog} 
-          likeBlog={() => likeBlog(blog)} 
-          deleteBlog={() => deleteBlog(blog)}
-          currentUser={user}/>
+          <Blog key={blog.id} blog={blog}
+            likeBlog={() => likeBlog(blog)}
+            deleteBlog={() => deleteBlog(blog)}
+            currentUser={user}/>
         )}
       </div>
     )
@@ -109,7 +108,7 @@ const App = () => {
 
   const addBlog = async (event) => {
     event.preventDefault()
-    
+
     const blogObject = {
       title: newTitle,
       author: newAuthor,
@@ -120,7 +119,7 @@ const App = () => {
     await blogService.create(blogObject)
     setMessage(`Added New Blog ${newTitle} by ${newAuthor}`)
     setTimeout(() => {
-        setMessage(null)
+      setMessage(null)
     }, 5000)
     setNewTitle('')
     setNewAuthor('')
@@ -154,7 +153,7 @@ const App = () => {
     if (!confirmation) {
       return
     }
-    
+
     try {
       await blogService.remove(blog.id)
       setBlogs(blogs.filter(b => b.id !== blog.id))
@@ -182,20 +181,20 @@ const App = () => {
 
 
         <Toggleable buttonLabel="new blog">
-        <h2>Create new blog</h2>
-        <AddForm 
-        newTitle={newTitle}
-        newAuthor={newAuthor}
-        newUrl={newUrl}
-        handleTitleChange={({ target }) => setNewTitle(target.value)}
-        handleAuthorChange={({ target }) => setNewAuthor(target.value)}
-        handleUrlChange={({ target }) => setNewUrl(target.value)}
-        addBlog={addBlog}
-        />
+          <h2>Create new blog</h2>
+          <AddForm
+            newTitle={newTitle}
+            newAuthor={newAuthor}
+            newUrl={newUrl}
+            handleTitleChange={({ target }) => setNewTitle(target.value)}
+            handleAuthorChange={({ target }) => setNewAuthor(target.value)}
+            handleUrlChange={({ target }) => setNewUrl(target.value)}
+            addBlog={addBlog}
+          />
         </Toggleable>
 
         {blogForm()}
-        </div>
+      </div>
       }
     </div>
   )
