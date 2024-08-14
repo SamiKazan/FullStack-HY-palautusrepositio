@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 const AddForm = ({ addBlog, newTitle, handleTitleChange,
   newAuthor, handleAuthorChange, newUrl, handleUrlChange }) => {
+
   return (
     <form onSubmit={addBlog}>
       <div>
@@ -11,6 +12,7 @@ const AddForm = ({ addBlog, newTitle, handleTitleChange,
           type="text"
           value={newTitle}
           name="Title"
+          placeholder='Title'
           onChange={handleTitleChange}
         />
       </div>
@@ -20,6 +22,7 @@ const AddForm = ({ addBlog, newTitle, handleTitleChange,
           type="text"
           value={newAuthor}
           name="Author"
+          placeholder='Author'
           onChange={handleAuthorChange}
         />
       </div>
@@ -29,6 +32,7 @@ const AddForm = ({ addBlog, newTitle, handleTitleChange,
           type="text"
           value={newUrl}
           name="Url"
+          placeholder='Url'
           onChange={handleUrlChange}
         />
       </div>
