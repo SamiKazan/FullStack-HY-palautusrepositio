@@ -9,6 +9,7 @@ const AddForm = ({ addBlog, newTitle, handleTitleChange,
       <div>
         Title
         <input
+          data-testid='title'
           type="text"
           value={newTitle}
           name="Title"
@@ -19,6 +20,7 @@ const AddForm = ({ addBlog, newTitle, handleTitleChange,
       <div>
         Author
         <input
+          data-testid='author'
           type="text"
           value={newAuthor}
           name="Author"
@@ -29,6 +31,7 @@ const AddForm = ({ addBlog, newTitle, handleTitleChange,
       <div>
         Url
         <input
+          data-testid='url'
           type="text"
           value={newUrl}
           name="Url"

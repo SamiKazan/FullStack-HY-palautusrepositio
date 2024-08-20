@@ -70,6 +70,7 @@ const App = () => {
         <div>
           Username
           <input
+            data-testid='username'
             type = "text"
             value={username}
             name="Username"
@@ -79,6 +80,7 @@ const App = () => {
         <div>
           Password
           <input
+            data-testid='password'
             type="password"
             value={password}
             name="Password"
@@ -116,7 +118,8 @@ const App = () => {
       user: user.username
     }
 
-    await blogService.create(blogObject)
+    const addedBlog = await blogService.create(blogObject)
+    setBlogs([...blogs, addedBlog])
     setMessage(`Added New Blog ${newTitle} by ${newAuthor}`)
     setTimeout(() => {
       setMessage(null)
